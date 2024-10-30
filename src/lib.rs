@@ -95,3 +95,40 @@ fn get_all_dependencies_from_dir(dir_path: &str) -> HashSet<String> {
     ret
 }
 
+/* --------------------------------- Testing -------------------------------- */
+
+#[test]
+fn test_find_file() {
+    assert_eq!(find_files("./test", ".rs"), HashSet::from([
+                                                      "./test/src/main.rs".to_string(),
+                                                      "./test/src/lib.rs".to_string(),
+                                                      "./test/test.rs".to_string(),
+    ]));
+}
+
+#[test]
+fn test_follow_links_if_needed() {
+    assert_eq!(follow_links_if_needed("./test/source"), "./test/source".to_string());
+    assert_eq!(follow_links_if_needed("./test/link1"), "./test/source".to_string());
+    assert_eq!(follow_links_if_needed("./test/link2"), "./test/source".to_string());
+    assert_eq!(follow_links_if_needed("./test/readme.md"), "./test/readme.md".to_string());
+}
+
+#[test]
+fn test_read_d_file() {
+    let mut set = HashSet::new();
+    read_d_file("./test/test.d", &mut set);
+    assert_eq!(set, HashSet::from([
+                               "./test/src/main.rs".to_string(),
+                               "./test/source".to_string(),
+    ]));
+}
+
+#[test]
+fn test_get_all_dependencies_from_dir() {
+    assert_eq!(get_all_dependencies_from_dir("./test"), HashSet::from([
+                               "./test/src/main.rs".to_string(),
+                               "./test/source".to_string(),
+    ]));
+}
+
