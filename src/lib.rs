@@ -86,7 +86,7 @@ fn read_d_file(file: &str, set: &mut HashSet<String>) {
 
 /// From a directory, read all d files and read all the dependencies listed in
 /// them.
-fn get_all_dependencies_from_dir(dir_path: &str) -> HashSet<String> {
+pub fn get_all_dependencies_from_dir(dir_path: &str) -> HashSet<String> {
     let all_d = find_files(dir_path, ".d");
     let mut ret = HashSet::new();
     for d_file in all_d {

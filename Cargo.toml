@@ -1,6 +1,12 @@
 [package]
-name = "dependancy_lister"
+name = "dependency_lister"
 version = "0.1.0"
 edition = "2021"
 
-[dependencies]
+[lib]
+name = "dependency_lister"
+path = "src/lib.rs"
+
+[[bin]]
+name = "dependency-lister"
+path = "src/main.rs"
