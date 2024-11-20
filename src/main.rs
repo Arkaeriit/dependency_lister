@@ -15,7 +15,7 @@ fn main() {
         exit(exit_code);
     }
 
-    let dependancies = get_all_dependencies_from_dir(&args[1]);
+    let dependancies = get_all_dependencies_from_dir(&args[1]).unwrap();
     display_set(&dependancies);
 }
 
