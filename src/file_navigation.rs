@@ -53,7 +53,11 @@ fn find_files(from: &str, filename_suffix: &str) -> Result<HashSet<String>, Depe
 /// It it's not, return itself.
 fn follow_links_if_needed(path: &str) -> Result<String, DependencyListerError> {
     let mut ret = path.to_string();
-    let mut metadata = symlink_metadata(path)?;
+    let mut metadata = if let Ok(md) = symlink_metadata(path) {
+        md
+    } else {
+        return Ok(path.to_string());
+    };
     while metadata.is_symlink() {
         let target_path = read_link(&ret)?;
         let target = path_to_str(&target_path)?;
@@ -121,6 +125,7 @@ pub fn get_all_dependencies_from_dir(dir_path: &str) -> Result<HashSet<String>, 
 /* ------------------------------ Error helpers ----------------------------- */
 
 fn symlink_metadata(path: &str) -> Result<fs::Metadata, DependencyListerError> {
+    println!("{}", path);
     match fs::symlink_metadata(path) {
         Ok(x) => Ok(x),
         Err(_) => Err(NotALink(path.to_string())),
