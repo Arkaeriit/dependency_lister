@@ -15,8 +15,16 @@ fn main() {
         exit(exit_code);
     }
 
-    let dependancies = get_all_dependencies_from_dir(&args[1]).unwrap();
-    display_set(&dependancies);
+    exit(match get_all_dependencies_from_dir(&args[1]) {
+        Ok(dependancies) => {
+            display_set(&dependancies);
+            0
+        },
+        Err(err) => {
+            eprintln!("{err}");
+            2
+        },
+    });
 }
 
 /// Print an help message.
