@@ -125,7 +125,6 @@ pub fn get_all_dependencies_from_dir(dir_path: &str) -> Result<HashSet<String>, 
 /* ------------------------------ Error helpers ----------------------------- */
 
 fn symlink_metadata(path: &str) -> Result<fs::Metadata, DependencyListerError> {
-    println!("{}", path);
     match fs::symlink_metadata(path) {
         Ok(x) => Ok(x),
         Err(_) => Err(NotALink(path.to_string())),
